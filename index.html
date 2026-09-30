@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Number Colorizer</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"] {
+      width: calc(100% - 24px);
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #888;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-weight: bold;
+      text-align: center;
+      font-size: 24px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Number Colorizer</h2>
+
+    <label for="number-input">Number:</label>
+    <input
+      type="text"
+      id="number-input"
+      placeholder="Enter a number"
+    />
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function getColorFromRange(number) {
+      if (number >= 101) return "#E11C26";
+      if (number >= 91) return "#FF589D";
+      if (number >= 81) return "#FA2073";
+      if (number >= 71) return "#AC26F9";
+      if (number >= 61) return "#2749D7";
+      if (number >= 51) return "#2CA6E4";
+      if (number >= 41) return "#21C896";
+      if (number >= 31) return "#6DC823";
+      if (number >= 21) return "#C7A91F";
+      if (number >= 1) return "#EA8E00";
+
+      return "#000000";
+    }
+
+    function updateNumber() {
+      const input = document
+        .getElementById("number-input")
+        .value
+        .replace(/,/g, "");
+
+      const resultBox = document.getElementById("result");
+
+      if (input.trim() === "" || isNaN(input)) {
+        resultBox.innerText = "Please enter a valid number.";
+        resultBox.style.color = "#000000";
+        return;
+      }
+
+      const number = Number(input);
+      const color = getColorFromRange(number);
+
+      resultBox.innerText = number.toLocaleString();
+      resultBox.style.color = color;
+    }
+
+    document
+      .getElementById("number-input")
+      .addEventListener("input", updateNumber);
+  </script>
+</body>
+</html>
