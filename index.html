@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Number Colorizer</title>
+  <title>Age Number Colorizer</title>
 
   <style>
     body {
@@ -50,17 +50,24 @@
 
 <body>
   <div class="container">
-    <h2>Number Colorizer</h2>
+    <h2>Age Number Colorizer</h2>
 
     <p class="instructions">
-      Insert a number preferrably from 1 to around 120. You can go above 120 if you so wish, but it will remain the same color.
+      Insert an age number preferably from 1 to around 120. You can go above 120 if you so wish.
     </p>
 
-    <label for="number-input">Number:</label>
+    <label for="year-input">Year Number:</label>
     <input
       type="text"
-      id="number-input"
-      placeholder="Enter a number"
+      id="year-input"
+      placeholder="Enter year number"
+    />
+
+    <label for="age-input">Age Number:</label>
+    <input
+      type="text"
+      id="age-input"
+      placeholder="Enter age number"
     />
 
     <div class="result" id="result"></div>
@@ -82,30 +89,47 @@
       return "#000000";
     }
 
-    function updateNumber() {
-      const input = document
-        .getElementById("number-input")
+    function updateResult() {
+      const yearInput = document
+        .getElementById("year-input")
+        .value
+        .replace(/,/g, "");
+
+      const ageInput = document
+        .getElementById("age-input")
         .value
         .replace(/,/g, "");
 
       const resultBox = document.getElementById("result");
 
-      if (input.trim() === "" || isNaN(input)) {
-        resultBox.innerText = "Please enter a valid number.";
-        resultBox.style.color = "#000000";
+      if (
+        yearInput.trim() === "" ||
+        ageInput.trim() === "" ||
+        isNaN(yearInput) ||
+        isNaN(ageInput)
+      ) {
+        resultBox.innerHTML = "Please enter valid numbers.";
         return;
       }
 
-      const number = Number(input);
-      const color = getColorFromRange(number);
+      const year = Number(yearInput);
+      const age = Number(ageInput);
 
-      resultBox.innerText = number.toLocaleString();
-      resultBox.style.color = color;
+      const resultingYear = year + age;
+      const color = getColorFromRange(age);
+
+      resultBox.innerHTML =
+        `Age <span style="color:${color}">${age.toLocaleString()}</span> ` +
+        `in <span style="color:${color}">${resultingYear.toLocaleString()}</span>`;
     }
 
     document
-      .getElementById("number-input")
-      .addEventListener("input", updateNumber);
+      .getElementById("year-input")
+      .addEventListener("input", updateResult);
+
+    document
+      .getElementById("age-input")
+      .addEventListener("input", updateResult);
   </script>
 </body>
 </html>
