@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,21 +54,23 @@
     <h2>Age Number Colorizer</h2>
 
     <p class="instructions">
-      Insert an age number preferably from 1 to around 120. You can go above 120 if you so wish, but it will remain the same color throughout.
+      Enter two year numbers to calculate the age between them.
+      Ages from 1 to 120 are color-coded, while ages above
+      120 retain the same color.
     </p>
 
-    <label for="year-input">Year Number:</label>
+    <label for="year-input">First Year Number:</label>
     <input
       type="text"
       id="year-input"
-      placeholder="Enter year number"
+      placeholder="Enter first year number"
     />
 
-    <label for="age-input">Age Number:</label>
+    <label for="second-year-input">Second Year Number:</label>
     <input
       type="text"
-      id="age-input"
-      placeholder="Enter age number"
+      id="second-year-input"
+      placeholder="Enter second year number"
     />
 
     <div class="result" id="result"></div>
@@ -103,8 +106,8 @@
         .value
         .replace(/,/g, "");
 
-      const ageInput = document
-        .getElementById("age-input")
+      const secondYearInput = document
+        .getElementById("second-year-input")
         .value
         .replace(/,/g, "");
 
@@ -112,22 +115,29 @@
 
       if (
         yearInput.trim() === "" ||
-        ageInput.trim() === "" ||
+        secondYearInput.trim() === "" ||
         isNaN(yearInput) ||
-        isNaN(ageInput)
+        isNaN(secondYearInput)
       ) {
-        resultBox.innerHTML = "Please enter valid numbers.";
+        resultBox.textContent = "Please enter valid numbers.";
         return;
       }
 
-      const year = Number(yearInput);
-      const age = Number(ageInput);
-      const resultingYear = year + age;
+      const firstYear = Number(yearInput);
+      const secondYear = Number(secondYearInput);
+      const age = secondYear - firstYear;
+
+      if (age < 0) {
+        resultBox.textContent =
+          "The second year must be greater than or equal to the first year.";
+        return;
+      }
+
       const color = getColorFromRange(age);
 
       resultBox.innerHTML =
         `Age <span style="color:${color}">${age.toLocaleString()}</span> ` +
-        `in <span style="color:${color}">${formatYear(resultingYear)}</span>`;
+        `in <span style="color:${color}">${formatYear(secondYear)}</span>`;
     }
 
     document
@@ -135,7 +145,7 @@
       .addEventListener("input", updateResult);
 
     document
-      .getElementById("age-input")
+      .getElementById("second-year-input")
       .addEventListener("input", updateResult);
   </script>
 </body>
